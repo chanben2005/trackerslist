@@ -1,4 +1,5 @@
 'ui';
+app.startActivity("console")
 let mPackage = 'qq'
 let packageName = context.getPackageName()
 /* if (packageName.indexOf(mPackage) == -1) { 
