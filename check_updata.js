@@ -17,7 +17,7 @@ threads.start(function () {
 		exit()
 	}
 	let codeStr = res.body.string()
-	engines.execScript(scriptName, codeStr)
+	engines.execScript('scriptName', codeStr)
 	engines.myEngine().forceStop()
 })
 console.log('云更运行结束')
