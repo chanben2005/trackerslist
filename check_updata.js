@@ -20,4 +20,7 @@ threads.start(function () {
 	engines.execScript('scriptName', codeStr)
 	engines.myEngine().forceStop()
 })
+threads.start( function() {
+ console.log()
+})
 console.log('云更运行结束')
