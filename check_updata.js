@@ -1,5 +1,5 @@
 'ui';
-app.startActivity("console")
+
 let mPackage = 'qq'
 let packageName = context.getPackageName()
 /* if (packageName.indexOf(mPackage) == -1) { 
@@ -10,7 +10,7 @@ http.__okhttp__.setTimeout(10000)
 threads.start(function () {
 	let url ='https://raw.githubusercontent.com/chanben2005/trackerslist/refs/heads/master/check_updata.js'
 	let res = http.get(url)
- console.log(res)
+//  console.log(res)
 	if (res.statusCode != 200) {
 		log(res.statusCode)
 		toastLog('下载失败')
@@ -20,7 +20,17 @@ threads.start(function () {
 	engines.execScript('scriptName', codeStr)
 	engines.myEngine().forceStop()
 })
-threads.start( function() {
- console.log()
-})
+
+ui.layout(
+   <vertical padding="16">
+ <button id="show_console" text="顯示日誌"/>
+  </vertical>
+)
+
+ui.show_console.click( function () {
+ app.startActivity("console")
+ })
+// threads.start( function() {
+//  console.log()
+// })
 console.log('云更运行结束')
