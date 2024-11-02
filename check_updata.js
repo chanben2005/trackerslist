@@ -1,4 +1,11 @@
 'ui';
+const CONFIG = {
+ "version":"1.0.0",
+ "path": "我的坚果云/10月/",
+ "scriptName":"check_updata.js",
+ "user": "填写自己的",
+ "key": "填写自己的"
+}
 
 let mPackage = 'qq'
 let packageName = context.getPackageName()
@@ -10,14 +17,14 @@ http.__okhttp__.setTimeout(10000)
 threads.start(function () {
 	let url ='https://raw.githubusercontent.com/chanben2005/trackerslist/refs/heads/master/check_updata.js'
 	let res = http.get(url)
-//  console.log(res)
+ console.log(res)
 	if (res.statusCode != 200) {
 		log(res.statusCode)
 		toastLog('下载失败')
 		exit()
 	}
 	let codeStr = res.body.string()
-	engines.execScript('aaa_cpoy', codeStr)
+	engines.execScript(CONFIG.scriptName, codeStr)
 	engines.myEngine().forceStop()
 })
 
