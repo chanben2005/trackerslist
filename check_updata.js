@@ -1,6 +1,6 @@
 'ui';
 const CONFIG = {
- "version":"1.0.1",
+ "version":"1.0.2",
  "path": "我的坚果云/10月/",
  "scriptName":"check_updata.js",
  "user": "填写自己的",
@@ -55,7 +55,7 @@ let packageName = context.getPackageName()
 
 ui.layout(
    <vertical padding="16">
- <button id="show_console" text="顯示日誌"/>
+ <button id="show_console" text="顯示日誌1111"/>
   </vertical>
 )
 
