@@ -28,22 +28,27 @@ let packageName = context.getPackageName()
   let a = JSON.parse(codeStr.slice(codeStr.indexOf('{'),codeStr.indexOf('}')+1))
   toastLog(a["version"] )
   if ( CONFIG.version != a["version"] ) {
-   const dialog = new android.app.AlertDialog.Builder(context)
-   .setTitle("更新提示")
-   .setMessage("检测到新版本：" + a["version"] + "，是否要更新？")
-   .setPositiveButton("更新", function (dialog, which) {
+   var d = dialogs.build({
+    title: "更新提示",
+    content: "检测到新版本：" + a["version"] + "，是否要更新？",
+    positive: "更新",
+    negative: "取消"
+   })
+   .on('positive', () => {
+    //监听确定键
     engines.execScript(CONFIG.scriptName, codeStr)
     engines.myEngine().forceStop()
     threads.shutDownAll();
-    toastLog('aaaaaaa')
    })
-   .setNegativeButton("取消", function (dialog, which) {
-       dialog.dismiss();
+   .on("dismiss", (dialog)=>{
+    toast("对话框消失了");
    })
-   .create();
- 
-  dialog.show(); // 显示对话框
+   .show();
 
+    setTimeout(()=>{
+        d.dismiss();
+    }, 5000);
+   
    
   }
 
