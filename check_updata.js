@@ -6,7 +6,7 @@ const CONFIG = {
  "user": "填写自己的",
  "key": "填写自己的"
 }
-
+const CONFIG1 = '{"version":"1.0.1",}'
 let mPackage = 'qq'
 let packageName = context.getPackageName()
 /* if (packageName.indexOf(mPackage) == -1) { 
@@ -18,17 +18,35 @@ let packageName = context.getPackageName()
  threads.start(function () {
   let url ='https://raw.githubusercontent.com/chanben2005/trackerslist/refs/heads/master/check_updata.js'
   let res = http.get(url)
-  console.log(res)
+  // console.log(res)
   if (res.statusCode != 200) {
    log(res.statusCode)
    toastLog('下载失败')
    exit()
   }
-  let codeStr = res.body.json()
-  toastLog(codeStr.CONFIG )
-  // if ( CONFIG.version != codeStr )
-  engines.execScript(CONFIG.scriptName, codeStr)
-  engines.myEngine().forceStop()
+  let codeStr = res.body.string()
+  let a = JSON.parse(codeStr.slice(codeStr.indexOf('{'),codeStr.indexOf('}')+1))
+  toastLog(a["version"] )
+  if ( CONFIG.version != a["version"] ) {
+   const dialog = new android.app.AlertDialog.Builder(context)
+   .setTitle("更新提示")
+   .setMessage("检测到新版本：" + a["version"] + "，是否要更新？")
+   .setPositiveButton("更新", function (dialog, which) {
+    engines.execScript(CONFIG.scriptName, codeStr)
+    engines.myEngine().forceStop()
+    threads.shutDownAll();
+    toastLog('aaaaaaa')
+   })
+   .setNegativeButton("取消", function (dialog, which) {
+       dialog.dismiss();
+   })
+   .create();
+ 
+  dialog.show(); // 显示对话框
+
+   
+  }
+
 // } catch(e){
 //  alert('111')
 // }
@@ -48,3 +66,18 @@ ui.show_console.click( function () {
 //  console.log()
 // })
 console.log('云更运行结束')
+
+function showUpdateDialog(latestVersion) {
+ const dialog = new android.app.AlertDialog.Builder(context)
+  .setTitle("更新提示")
+  .setMessage("检测到新版本 v" + latestVersion + "，是否要更新？")
+  .setPositiveButton("更新", function (dialog, which) {
+      downloadApk(); // 开始下载 APK
+  })
+  .setNegativeButton("取消", function (dialog, which) {
+      dialog.dismiss();
+  })
+  .create();
+
+ dialog.show(); // 显示对话框
+}
