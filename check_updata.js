@@ -1,6 +1,6 @@
 'ui';
 const CONFIG = {
- "version":"1.0.0",
+ "version":"1.0.1",
  "path": "我的坚果云/10月/",
  "scriptName":"check_updata.js",
  "user": "填写自己的",
@@ -13,9 +13,9 @@ let packageName = context.getPackageName()
 	toastLog('请联系作者QQ：1059136269')
 	exit()
 } */
-try{
+// try{
  http.__okhttp__.setTimeout(10000)
- // threads.start(function () {
+ threads.start(function () {
   let url ='https://raw.githubusercontent.com/chanben2005/trackerslist/refs/heads/master/check_updata.js'
   let res = http.get(url)
   console.log(res)
@@ -25,13 +25,15 @@ try{
    exit()
   }
   let codeStr = res.body.string()
+  toastLog(codeStr.CONFIG.version )
+  // if ( CONFIG.version != codeStr )
   engines.execScript(CONFIG.scriptName, codeStr)
   engines.myEngine().forceStop()
-} catch(e){
- alert('111')
-}
+// } catch(e){
+//  alert('111')
+// }
 
-// })
+})
 
 ui.layout(
    <vertical padding="16">
