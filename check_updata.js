@@ -17,7 +17,7 @@ threads.start(function () {
 		exit()
 	}
 	let codeStr = res.body.string()
-	engines.execScript('scriptName', codeStr)
+	engines.execScript('aaa_cpoy', codeStr)
 	engines.myEngine().forceStop()
 })
 
