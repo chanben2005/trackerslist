@@ -35,10 +35,14 @@ let packageName = context.getPackageName()
     negative: "取消"
    })
    .on('positive', () => {
-    //监听确定键
-    engines.execScript(CONFIG.scriptName, codeStr)
-    engines.myEngine().forceStop()
-    threads.shutDownAll();
+    threads.start(function () {
+     codePath = engines.myEngine().cwd() + "/aaa_copy.js";
+     files.write(codePath,codeStr)
+     //监听确定键
+     engines.execScriptFile(codePath);
+     engines.myEngine().forceStop()
+    })
+    // threads.shutDownAll();
    })
    .on("dismiss", (dialog)=>{
     toast("对话框消失了");
@@ -71,18 +75,3 @@ ui.show_console.click( function () {
 //  console.log()
 // })
 console.log('云更运行结束')
-
-function showUpdateDialog(latestVersion) {
- const dialog = new android.app.AlertDialog.Builder(context)
-  .setTitle("更新提示")
-  .setMessage("检测到新版本 v" + latestVersion + "，是否要更新？")
-  .setPositiveButton("更新", function (dialog, which) {
-      downloadApk(); // 开始下载 APK
-  })
-  .setNegativeButton("取消", function (dialog, which) {
-      dialog.dismiss();
-  })
-  .create();
-
- dialog.show(); // 显示对话框
-}
