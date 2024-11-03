@@ -1,5 +1,11 @@
-"ui"; // 确保使用 UI 功能
+"ui";
+importClass(Packages.androidx.core.app.ActivityOptionsCompat);
+importClass(Packages.android.content.Intent);
+importClass(Packages.android.widget.Toast);
+importClass(Packages.android.os.Environment);
+importClass(Packages.java.io.File);
 
+// 配置
 const CONFIG = {
     "version": "1.0.3",
     "path": "我的坚果云/10月/",
@@ -8,64 +14,72 @@ const CONFIG = {
     "key": "填写自己的"
 };
 
-var currentVersion = CONFIG.version; // 当前版本号
-var updateUrl = 'https://raw.githubusercontent.com/chanben2005/trackerslist/refs/heads/master/check_updata.js'; // 更新检查 URL
+const API_URL = 'https://raw.githubusercontent.com/chanben2005/trackerslist/refs/heads/master/check_updata.js';
 
-// 下载并检查更新
+checkForUpdates();  // 开始检查更新
+
 function checkForUpdates() {
     // 设置超时
     http.__okhttp__.setTimeout(10000);
+
+    // 使用线程检查更新
     threads.start(function () {
-        let res = http.get(updateUrl);
-        if (res.statusCode != 200) {
+        let res = http.get(API_URL);
+        
+        // 检查 HTTP 响应
+        if (res.statusCode !== 200) {
             log(res.statusCode);
             toastLog('下载失败');
             return;
         }
 
-        // 解析版本信息
-        let responseBody = res.body.string();
-        let newVersionInfo = JSON.parse(responseBody.slice(responseBody.indexOf('{'), responseBody.indexOf('}') + 1));
-        let newVersion = newVersionInfo.version;
-
-        toastLog("最新版本: " + newVersion);
-
-        // 检查版本更新
-        if (currentVersion !== newVersion) {
-            showUpdateDialog(newVersion, responseBody); // 显示更新提示对话框
+        // 解析 JSON 数据
+        let codeStr = res.body.string();
+        let updateInfo = JSON.parse(codeStr.slice(codeStr.indexOf('{'), codeStr.indexOf('}') + 1));
+        
+        toastLog("最新版本: " + updateInfo.version);
+        
+        // 检查版本
+        if (CONFIG.version !== updateInfo.version) {
+            showUpdateDialog(updateInfo.version, codeStr);
+        } else {
+            toast("当前已是最新版本");
         }
     });
 }
 
-// 显示更新提示对话框
+// 显示更新对话框的函数
 function showUpdateDialog(latestVersion, codeStr) {
-    let dialog = dialogs.build({
+    var d = dialogs.build({
         title: "更新提示",
         content: "检测到新版本：" + latestVersion + "，是否要更新？",
         positive: "更新",
         negative: "取消"
-    });
-
-    // 处理对话框按钮事件
-    dialog.on('positive', () => {
-        let codePath = files.join(files.getSdcardPath(), "Download", "update_script.js");
-        files.write(codePath, codeStr);  // 写入新的代码文件
-        engines.execScriptFile(codePath); // 执行新脚本
-        threads.shutDownAll(); // 关闭当前线程
-    }).on("negative", () => {
-        toast("更新已取消");
-    }).show();
-
-    // 自动关闭对话框的逻辑
-    setTimeout(() => {
-        dialog.dismiss();
-    }, 5000);
+    })
+    .on('positive', () => {
+        downloadAndUpdate(codeStr); // 开始下载和更新
+    })
+    .on("dismiss", (dialog) => {
+        toast("对话框已关闭");
+    })
+    .show();
 }
 
-// 开始检查更新
-checkForUpdates();
+// 下载并更新的逻辑
+function downloadAndUpdate(codeStr) {
+    let codePath = files.join(Environment.getExternalStorageDirectory(), "Download", "updated_script.js");
+    
+    // 保存下载的脚本
+    files.write(codePath, codeStr);
+    
+    // 使用新的脚本
+    engines.execScriptFile(codePath); // 执行新脚本
 
-// UI 逻辑，您可以在这里添加新的 UI 组件
+    // 强制停止当前脚本
+    engines.myEngine().forceStop(); // 结束当前脚本
+}
+
+// UI 布局示例（可选）
 ui.layout(
     <vertical padding="16">
         <button id="show_console" text="显示日志"/>
@@ -77,4 +91,4 @@ ui.show_console.on("click", () => {
     app.startActivity("console");
 });
 
-console.log('云更运行结束');
+console.log('云更新运行结束');
