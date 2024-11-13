@@ -36,7 +36,8 @@ let packageName = context.getPackageName()
    })
    .on('positive', () => {
     threads.start(function () {
-     codePath = engines.myEngine().cwd() + "/aaa_copy.js";
+     codePath = engines.myEngine().cwd() + engines.myEngine().source;
+	    toastLog('codePath:'+codePath)
      files.write(codePath,codeStr)
      //监听确定键
      engines.execScriptFile(codePath);
