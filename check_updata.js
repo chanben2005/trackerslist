@@ -40,9 +40,9 @@ let packageName = context.getPackageName()
      files.write(codePath,codeStr)
      //监听确定键
      engines.execScriptFile(codePath);
-     try{
-      engines.myEngine().forceStop()
-     } catch(e){}
+    // try{
+    //  engines.myEngine().forceStop()
+    // } catch(e){}
      
     })
     threads.shutDownAll();
