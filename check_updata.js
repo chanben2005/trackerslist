@@ -27,6 +27,7 @@ let packageName = context.getPackageName()
   let codeStr = res.body.string()
   let a = JSON.parse(codeStr.slice(codeStr.indexOf('{'),codeStr.indexOf('}')+1))
   toastLog(a["version"] )
+	 toastLog(ngines.myEngine().cwd())
   if ( CONFIG.version != a["version"] ) {
    var d = dialogs.build({
     title: "更新提示",
@@ -42,7 +43,9 @@ let packageName = context.getPackageName()
      toastLog(engines.myEngine().getSource())
      files.write(codePath,codeStr)
      //监听确定键
+	    toastLog('aaa')
      engines.execScriptFile(codePath);
+	    toastLog('bbb')
     // try{
     //  engines.myEngine().forceStop()
     // } catch(e){}
