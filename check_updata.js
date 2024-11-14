@@ -27,7 +27,7 @@ let packageName = context.getPackageName()
   let codeStr = res.body.string()
   let a = JSON.parse(codeStr.slice(codeStr.indexOf('{'),codeStr.indexOf('}')+1))
   toastLog(a["version"] )
-	 toastLog(ngines.myEngine().cwd())
+	 toastLog(engines.myEngine().cwd())
   if ( CONFIG.version != a["version"] ) {
    var d = dialogs.build({
     title: "更新提示",
@@ -36,7 +36,7 @@ let packageName = context.getPackageName()
     negative: "取消"
    })
    .on('positive', () => {
-    threads.start(function () {
+    // threads.start(function () {
 	    // engines.myEngine().cwd() + '/' +
      codePath =engines.myEngine().source;
      toastLog('codePath:'+codePath)
@@ -50,7 +50,7 @@ let packageName = context.getPackageName()
     //  engines.myEngine().forceStop()
     // } catch(e){}
      
-    })
+    // })
     threads.shutDownAll();
    })
    .on("dismiss", (dialog)=>{
