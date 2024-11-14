@@ -1,4 +1,6 @@
 'ui';
+// 软件内部储存路径
+const PATH = context.getFilesDir().getAbsolutePath()
 const CONFIG = {
  "version":"1.0.3",
  "path": "我的坚果云/10月/",
@@ -26,8 +28,10 @@ let packageName = context.getPackageName()
   }
   let codeStr = res.body.string()
   let a = JSON.parse(codeStr.slice(codeStr.indexOf('{'),codeStr.indexOf('}')+1))
-  toastLog(a["version"] )
-	 toastLog(engines.myEngine().cwd())
+  toastLog('PATH:'+PATH)
+	 toastLog('version:'+a["version"] )
+  toastLog('cwd:'+engines.myEngine().cwd())
+	 toastLog('source:'+engines.myEngine().source)
   if ( CONFIG.version != a["version"] ) {
    var d = dialogs.build({
     title: "更新提示",
@@ -38,13 +42,15 @@ let packageName = context.getPackageName()
    .on('positive', () => {
     // threads.start(function () {
 	    // engines.myEngine().cwd() + '/' +
-     codePath =engines.myEngine().source;
+	   
+     codePath_1 =engines.myEngine().source;
+	codePath_2 = PATH + '/check_updata.js';
      toastLog('codePath:'+codePath)
      toastLog(engines.myEngine().getSource())
-     files.write(codePath,codeStr)
+     files.write(codePath_1,codeStr)
      //监听确定键
 	    toastLog('aaa')
-     engines.execScriptFile(codePath);
+     engines.execScriptFile(codePath_1);
 	    toastLog('bbb')
     // try{
     //  engines.myEngine().forceStop()
