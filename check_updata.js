@@ -71,13 +71,13 @@ let packageName = context.getPackageName()
 ui.layout(
    <vertical padding="16">
 	<text text="{{CONFIG.version}}"/>
- {/* <button id="show_console" text="顯示日誌222"/> */}
+ <button id="show_console" text="顯示日誌222"/>
   </vertical>
 )
 
-// ui.show_console.click( function () {
-//  app.startActivity("console")
-//  })
+ui.show_console.click( function () {
+ app.startActivity("console")
+ })
 // threads.start( function() {
 //  console.log()
 // })
