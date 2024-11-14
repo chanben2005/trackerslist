@@ -45,8 +45,8 @@ let packageName = context.getPackageName()
 	   
      codePath_1 =engines.myEngine().source;
 	codePath_2 = PATH + '/check_updata.js';
-     toastLog('codePath:'+codePath)
-     toastLog(engines.myEngine().getSource())
+     toastLog('codePath:'+codePath_1)
+    //  toastLog(engines.myEngine().getSource())
      files.write(codePath_1,codeStr)
      //监听确定键
 	    toastLog('aaa')
