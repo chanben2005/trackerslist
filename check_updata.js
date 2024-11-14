@@ -38,7 +38,8 @@ let packageName = context.getPackageName()
     threads.start(function () {
 	    // engines.myEngine().cwd() + '/' +
      codePath =engines.myEngine().source;
-	    toastLog('codePath:'+codePath)
+     toastLog('codePath:'+codePath)
+     toastLog(engines.myEngine().getSource())
      files.write(codePath,codeStr)
      //监听确定键
      engines.execScriptFile(codePath);
@@ -67,11 +68,12 @@ let packageName = context.getPackageName()
 
 })
 
-// ui.layout(
-//    <vertical padding="16">
-//  <button id="show_console" text="顯示日誌222"/>
-//   </vertical>
-// )
+ui.layout(
+   <vertical padding="16">
+	<text text="{{CONFIG.version}}"/>
+ {/* <button id="show_console" text="顯示日誌222"/> */}
+  </vertical>
+)
 
 // ui.show_console.click( function () {
 //  app.startActivity("console")
