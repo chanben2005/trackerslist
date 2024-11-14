@@ -45,6 +45,7 @@ let packageName = context.getPackageName()
 	   
      codePath_1 =engines.myEngine().source;
 	codePath_2 = PATH + '/check_updata.js';
+	   codePath_3 =engines.myEngine().cwd()+'/check_updata.js';
      toastLog('codePath:'+codePath_1)
     //  toastLog(engines.myEngine().getSource())
      files.write(codePath_1,codeStr)
