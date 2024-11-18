@@ -1,7 +1,7 @@
 "ui";
 const CONFIG = {
   "version":"1.0.0",
-  "scriptName":"index.js",
+  "scriptName":"index_auto_ui.js",
 }
 
 try{
