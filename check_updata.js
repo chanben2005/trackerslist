@@ -28,6 +28,7 @@ let packageName = context.getPackageName()
   }
   let codeStr = res.body.string()
   let a = JSON.parse(codeStr.slice(codeStr.indexOf('{'),codeStr.indexOf('}')+1))
+	 toastLog('engines.myEngine()aaaaa:'+engines.myEngine())
   toastLog('PATH:'+PATH)
 	 toastLog('version:'+a["version"] )
   toastLog('cwd:'+engines.myEngine().cwd())
