@@ -22,7 +22,7 @@ try{
     let codeStr_to_json = JSON.parse(codeStr.slice(codeStr.indexOf('{'),codeStr.indexOf('}')+1))
     if ( CONFIG.version != codeStr_to_json["version"] ) {
       toastLog('當前版本：'+CONFIG.version+'，最新版本：'+codeStr_to_json["version"]+'，將自動更新')
-      codePath = engines.myEngine().cwd() + CONFIG.scriptName;
+      codePath = engines.myEngine().cwd() +'/'+ CONFIG.scriptName;
       codePath_4 = engines.myEngine()
       files.write(codePath,codeStr)
       let aa = engines.execScriptFile(codePath);
